@@ -1,25 +1,21 @@
 {
   "name": "echo",
-  "title": "echo",
-  "description": "",
-  "systems": [],
+  "title": "Bang, Echo",
+  "description": "A simple utility that echo's your input, evaluating any roll-like parameters that you pass it.",
   "version": "0.1.0",
-  "author": "",
+  "author": "James Allred",
   "authors": [
     {
-      "name": "",
-      "email": "",
-      "url": ""
+      "name": "James Allred",
+      "email": "wildj79@gmail.com",
+      "url": "https://"
     }
   ],
-  "scripts": [],
   "esmodules": ["echo.js"],
   "styles": ["echo.css"],
-  "packs": [],
-  "languages": [],
-  "minimumCoreVersion": "0.5.0",
-  "compatibleCoreVersion": "0.5.0",
-  "url": "",
+  "minimumCoreVersion": "0.6.0",
+  "compatibleCoreVersion": "0.7.8",
+  "url": "https://github.com/wildj79/foundryvtt-echo",
   "manifest": "",
   "download": "",
   "license": "",

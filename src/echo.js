@@ -3,7 +3,7 @@
  * The magic of this module is that it will evaluate any roll-like parameters that you
  * pass it.
  * 
- * @author James Allred
+ * @author James Allred <wildj79 at gmail.com>
  * @license MIT
  * @copyright (c) 2020 James Allred
  */
