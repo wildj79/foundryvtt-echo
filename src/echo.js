@@ -11,14 +11,35 @@
 // Import JavaScript modules
 import { registerSettings } from './module/settings.js';
 import { preloadTemplates } from './module/preloadTemplates.js';
+import CommandParser from './module/command-parser.js';
+import Yargs from 'https://unpkg.com/yargs@16.2.0/browser.mjs';
 
 /* ------------------------------------ */
 /* Initialize module					*/
 /* ------------------------------------ */
 Hooks.once('init', async function() {
-	console.log('echo | Initializing echo');
-
-	// Assign custom classes and constants here
+	console.log('Bang, echo! | The echo is deafening');
+	
+	game.echo = {
+		parser: Yargs()
+		.scriptName('')
+		.command('!echo [options] <message...>', 'Echo the users input', {
+			actor: {
+				alias: 'a',
+				describe: 'The name of an actor to pull roll data from',
+				default: null
+			},
+			item: {
+				alias: 'i',
+				describe: 'The name of an item that the currently selected actor owns to pull roll data from',
+				default: null
+			}
+		})
+		.help()
+		.showHelpOnFail(false)
+		.parserConfiguration({'parse-positional-numbers': false})
+		.version(false)
+	};
 	
 	// Register custom module settings
 	registerSettings();
@@ -29,19 +50,10 @@ Hooks.once('init', async function() {
 	// Register custom sheets (if any)
 });
 
-/* ------------------------------------ */
-/* Setup module							*/
-/* ------------------------------------ */
-Hooks.once('setup', function() {
-	// Do anything after initialization but before
-	// ready
+/**
+ * Captures the chat message before it is rendered to determine
+ * if it contains the !echo command.
+ */
+Hooks.on('chatMessage', (log, message, data) => {
+	return !CommandParser.parse(log, message, data);
 });
-
-/* ------------------------------------ */
-/* When ready							*/
-/* ------------------------------------ */
-Hooks.once('ready', function() {
-	// Do anything once the module is ready
-});
-
-// Add any additional hooks if necessary
