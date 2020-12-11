@@ -1,3 +1,5 @@
+import parser from "https://unpkg.com/yargs-parser@20.2.4/browser.js";
+
 /**
  * Utility class used to parse the incoming command.
  */
@@ -11,60 +13,60 @@ export default class CommandParser {
      * @param {*}       data    Data for the chat message
      */
     static parse(log, message, data) {
-        // If the chat message doesn't start with an exclamation point (!)
+        // If the chat message doesn't start with !echo
         // then we don't care about it.
-        if (!message.trimStart().startsWith('!')) return false;
-        const test = game.echo.parser.parse(message.trimStart(), (err, argv, output) => {
-            if (argv.help) {
-                this.printHelp(data);
+        if (!message.trimStart().startsWith('!echo')) return false;
 
-                return true;
+        const argv = parser(message.replace('!echo', ''), {
+            alias: {
+                actor: ['a'],
+                item: ['i'],
+                help: ['h']
             }
-
-            if (output) {
-                this._createChatMessage(output, data);
-
-                return true;
-            }
-            
-            let actor;
-            if (data.speaker?.actor ?? false) {
-                actor = game.actors.get(data.speaker.actor);
-            }
-
-            if (argv.actor) {
-                actor = game.actors.getName(argv.actor);
-            }
-
-            if (!actor) {
-                this.printHelp(data);
-
-                return true;
-            }
-
-            let item;
-            if (argv.item) {
-                item = actor.items.find(i => i.name === argv.item);
-            }
-            
-            const rollData = actor.getRollData();
-            if (item) mergeObject(rollData, { item: item.getRollData() });
-            
-            let message = argv.message.reduce((prev, curr) => {
-                if (curr.startsWith('@')) {
-                    let val = getProperty(rollData, curr.replace('@', ''));
-                    prev.push(`<code>${val}</code>`);
-                } else {
-                    prev.push(curr);
-                }
-
-                return prev;
-            }, []);
-
-            this._createChatMessage(`<div>${message.join(' ')}</div>`, data);
         });
 
-        console.log(test);
+        if (!argv || !(argv._.length > 0)) {
+            this.printHelp(data);
+
+            return true;
+        }
+
+        if (argv.help) {
+            this.printHelp(data);
+
+            return true;
+        }
+        
+        let actor;
+        if (data.speaker?.actor ?? false) {
+            actor = game.actors.get(data.speaker.actor);
+        }
+
+        if (argv.actor) {
+            actor = game.actors.getName(argv.actor);
+        }
+
+        if (!actor) {
+            this.printHelp(data);
+
+            return true;
+        }
+
+        let item;
+        if (argv.item) {
+            item = actor.items.find(i => i.name === argv.item);
+        }
+        
+        const rollData = actor.getRollData();
+        if (item) mergeObject(rollData, { item: item.getRollData() });
+        
+        let echo = argv._.reduce((prev, curr) => {
+            prev.push(Roll.replaceFormulaData(curr, rollData, {missing: 'undefined'}));
+
+            return prev;
+        }, []);
+
+        this._createChatMessage(`<div>${echo.join(' ')}</div>`, data);
 
         return true;
     }

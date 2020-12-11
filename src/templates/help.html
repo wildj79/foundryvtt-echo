@@ -1,1 +1,26 @@
-HELP!!!
+<h3>Bang, Echo!</h3>
+<div>
+    <p>Usage: <code>!echo [options] &lt;message...&gt;</code></p>
+    <p>
+        This command takes the inputed text and sends it back as a chat message. It will 
+        evaluate any roll parameters that you pass to it and output its value. 
+    </p>
+    <h3>Example usage:</h3>
+    <p><code>!echo -a "John Doe" John Doe has a strength of @abilities.str.value</code></p>
+    <h4>Options:</h4>
+    <ul>
+        <li>-h, --help: Display's this message</li>
+        <li>
+            -a, --actor: Provide the name of an actor to get data from. If this option is not provided, 
+            the command will attempt to get the roll data from the currently selected actor. If no actor
+            can be found, then this help message will appear.
+        </li>
+        <li>
+            -i, --item: The name of an item that this actor owns. This will allow Bang, Echo! to output
+            any roll parameters associtated with that item. e.g. 
+            <code>
+                !echo -i "Laser rifle, azimuth" This rifle has @item.capacity.value shots out of @item.capacity.max left.
+            </code>
+        </li>
+    </ul>
+</div>
