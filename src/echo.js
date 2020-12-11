@@ -9,8 +9,6 @@
  */
 
 // Import JavaScript modules
-import { registerSettings } from './module/settings.js';
-import { preloadTemplates } from './module/preloadTemplates.js';
 import CommandParser from './module/command-parser.js';
 
 /* ------------------------------------ */
@@ -18,14 +16,6 @@ import CommandParser from './module/command-parser.js';
 /* ------------------------------------ */
 Hooks.once('init', async function() {
 	console.log('Bang, echo! | The echo is deafening');
-	
-	// Register custom module settings
-	registerSettings();
-	
-	// Preload Handlebars templates
-	await preloadTemplates();
-
-	// Register custom sheets (if any)
 });
 
 /**

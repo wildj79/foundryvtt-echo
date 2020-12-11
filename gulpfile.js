@@ -4,8 +4,6 @@ const path = require('path');
 const chalk = require('chalk');
 const archiver = require('archiver');
 const stringify = require('json-stringify-pretty-compact');
-const less = require('gulp-less');
-
 const argv = require('yargs').argv;
 
 function getConfig() {
@@ -50,19 +48,10 @@ function getManifest() {
 /********************/
 
 /**
- * Build Less
- */
-function buildLess() {
-	return gulp.src('src/less/echo.less').pipe(less()).pipe(gulp.dest('dist'));
-}
-
-/**
  * Copy static files
  */
 async function copyFiles() {
 	const statics = [
-		'lang',
-		'assets',
 		'templates',
 		'module',
 		'module.json',
@@ -84,7 +73,6 @@ async function copyFiles() {
  * Watch for changes for each build step
  */
 function buildWatch() {
-	gulp.watch('src/**/*.less', { ignoreInitial: false }, buildLess);
 	gulp.watch(
 		['src/lang', 'src/templates', 'src/*.json', 'src/**/*.js'],
 		{ ignoreInitial: false },
@@ -124,12 +112,9 @@ async function copyReadmeAndLicenses() {
 async function clean() {
 	const name = 'echo';
 	const files = [
-		'lang',
 		'templates',
-		'assets',
 		'module',
 		`${name}.js`,
-		`${name}.css`,
 		'module.json',
 		'README.md',
 		'LICENSE'
@@ -358,7 +343,7 @@ function updateManifest(cb) {
 	}
 }
 
-const execBuild = gulp.parallel(buildLess, copyFiles);
+const execBuild = gulp.parallel(copyFiles);
 
 exports.build = gulp.series(clean, execBuild);
 exports.watch = buildWatch;
