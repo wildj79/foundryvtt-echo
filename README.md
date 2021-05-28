@@ -1,5 +1,9 @@
 # Bang, Echo!
 
+## Archived
+
+This project is no longer being maintained. This module should work fine on Foundry VTT v0.7.10 and below just fine, but might have issues on v0.8.x and above. You are more than welcome to install this module manually, but I will not be supporting it in anyway.
+
 A simple utility that echo's what you type into a new `ChatMessage`. The magic of this module is that it will evaluate any `@data.parameters` that you pass it.
 
 Usage: `!echo [options] <message...>`
